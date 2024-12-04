@@ -109,7 +109,7 @@ def set_mapbox_access_token(token):
     MAPBOX_TOKEN = token
 
 
-def get_trendline_results(fig):
+def get_trendline_results(fig: go.Figure):
     """
     Extracts fit statistics for trendlines (when applied to figures generated with
     the `trendline` argument set to `"ols"`).
@@ -2467,7 +2467,7 @@ def get_groups_and_orders(args, grouper):
     return groups, orders
 
 
-def make_figure(args, constructor, trace_patch=None, layout_patch=None):
+def make_figure(args, constructor, trace_patch=None, layout_patch=None) -> go.Figure:
     trace_patch = trace_patch or {}
     layout_patch = layout_patch or {}
     apply_default_cascade(args)
