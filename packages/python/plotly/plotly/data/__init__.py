@@ -1,22 +1,25 @@
 """
 Built-in datasets for demonstration, educational and test purposes.
 """
+
+from typing import Literal
 import os
 from importlib import import_module
 
 import narwhals.stable.v1 as nw
+from narwhals.stable.v1.typing import IntoDataFrame
 
 AVAILABLE_BACKENDS = {"pandas", "polars", "pyarrow", "modin", "cudf"}
 BACKENDS_WITH_INDEX_SUPPORT = {"pandas", "modin", "cudf"}
 
 
 def gapminder(
-    datetimes=False,
-    centroids=False,
-    year=None,
-    pretty_names=False,
-    return_type="pandas",
-):
+    datetimes: bool = False,
+    centroids: bool = False,
+    year: int | None = None,
+    pretty_names: bool = False,
+    return_type: Literal["pandas", "polars", "pyarrow", "modin", "cudf"] = "pandas",
+) -> IntoDataFrame:
     """
     Each row represents a country on a given year.
 
@@ -83,7 +86,10 @@ def gapminder(
     return df.to_native()
 
 
-def tips(pretty_names=False, return_type="pandas"):
+def tips(
+    pretty_names: bool = False,
+    return_type: Literal["pandas", "polars", "pyarrow", "modin", "cudf"] = "pandas",
+) -> IntoDataFrame:
     """
     Each row represents a restaurant bill.
 
@@ -120,7 +126,9 @@ def tips(pretty_names=False, return_type="pandas"):
     return df.to_native()
 
 
-def iris(return_type="pandas"):
+def iris(
+    return_type: Literal["pandas", "polars", "pyarrow", "modin", "cudf"] = "pandas"
+) -> IntoDataFrame:
     """
     Each row represents a flower.
 
@@ -140,7 +148,9 @@ def iris(return_type="pandas"):
     return _get_dataset("iris", return_type=return_type)
 
 
-def wind(return_type="pandas"):
+def wind(
+    return_type: Literal["pandas", "polars", "pyarrow", "modin", "cudf"] = "pandas"
+) -> IntoDataFrame:
     """
     Each row represents a level of wind intensity in a cardinal direction, and its frequency.
 
@@ -158,7 +168,9 @@ def wind(return_type="pandas"):
     return _get_dataset("wind", return_type=return_type)
 
 
-def election(return_type="pandas"):
+def election(
+    return_type: Literal["pandas", "polars", "pyarrow", "modin", "cudf"] = "pandas"
+) -> IntoDataFrame:
     """
     Each row represents voting results for an electoral district in the 2013 Montreal
     mayoral election.
@@ -177,7 +189,7 @@ def election(return_type="pandas"):
     return _get_dataset("election", return_type=return_type)
 
 
-def election_geojson():
+def election_geojson() -> dict:
     """
     Each feature represents an electoral district in the 2013 Montreal mayoral election.
 
@@ -202,7 +214,9 @@ def election_geojson():
     return result
 
 
-def carshare(return_type="pandas"):
+def carshare(
+    return_type: Literal["pandas", "polars", "pyarrow", "modin", "cudf"] = "pandas"
+) -> IntoDataFrame:
     """
     Each row represents the availability of car-sharing services near the centroid of a zone
     in Montreal over a month-long period.
@@ -221,7 +235,11 @@ def carshare(return_type="pandas"):
     return _get_dataset("carshare", return_type=return_type)
 
 
-def stocks(indexed=False, datetimes=False, return_type="pandas"):
+def stocks(
+    indexed: bool = False,
+    datetimes: bool = False,
+    return_type: Literal["pandas", "polars", "pyarrow", "modin", "cudf"] = "pandas",
+) -> IntoDataFrame:
     """
     Each row in this wide dataset represents closing prices from 6 tech stocks in 2018/2019.
 
@@ -265,7 +283,10 @@ def stocks(indexed=False, datetimes=False, return_type="pandas"):
     return df.to_native()
 
 
-def experiment(indexed=False, return_type="pandas"):
+def experiment(
+    indexed: bool = False,
+    return_type: Literal["pandas", "polars", "pyarrow", "modin", "cudf"] = "pandas",
+) -> IntoDataFrame:
     """
     Each row in this wide dataset represents the results of 100 simulated participants
     on three hypothetical experiments, along with their gender and control/treatment group.
@@ -301,7 +322,10 @@ def experiment(indexed=False, return_type="pandas"):
     return df.to_native()
 
 
-def medals_wide(indexed=False, return_type="pandas"):
+def medals_wide(
+    indexed: bool = False,
+    return_type: Literal["pandas", "polars", "pyarrow", "modin", "cudf"] = "pandas",
+) -> IntoDataFrame:
     """
     This dataset represents the medal table for Olympic Short Track Speed Skating for the
     top three nations as of 2020.
@@ -338,7 +362,10 @@ def medals_wide(indexed=False, return_type="pandas"):
     return df.to_native()
 
 
-def medals_long(indexed=False, return_type="pandas"):
+def medals_long(
+    indexed: bool = False,
+    return_type: Literal["pandas", "polars", "pyarrow", "modin", "cudf"] = "pandas",
+) -> IntoDataFrame:
     """
     This dataset represents the medal table for Olympic Short Track Speed Skating for the
     top three nations as of 2020.
@@ -375,7 +402,20 @@ def medals_long(indexed=False, return_type="pandas"):
     return df.to_native()
 
 
-def _get_dataset(d, return_type):
+def _get_dataset(
+    d: Literal[
+        "gapminder",
+        "tips",
+        "iris",
+        "wind",
+        "election",
+        "carshare",
+        "stocks",
+        "experiment",
+        "medals",
+    ],
+    return_type: Literal["pandas", "polars", "pyarrow", "modin", "cudf"],
+) -> IntoDataFrame:
     """
     Loads the dataset using the specified backend.
 
